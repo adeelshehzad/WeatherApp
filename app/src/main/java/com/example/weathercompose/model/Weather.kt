@@ -1,6 +1,6 @@
 package com.example.weathercompose.model
 
 data class Weather(
-    val current: Current,
-    val location: Location
+    val current: Current? = null,
+    val location: Location? = null
 )

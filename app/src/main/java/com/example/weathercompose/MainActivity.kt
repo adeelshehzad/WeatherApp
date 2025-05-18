@@ -7,14 +7,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import com.example.weathercompose.compose.model.Forecast
 import com.example.weathercompose.compose.theme.WeatherComposeTheme
+import com.example.weathercompose.compose.view.WeatherScreen
 import com.example.weathercompose.compose.view.WeatherUi
+import com.example.weathercompose.model.Weather
 import com.example.weathercompose.network.RetrofitInstance
 import com.example.weathercompose.network.WeatherApiRepositoryImpl
 import com.example.weathercompose.network.WeatherViewModel
 import com.example.weathercompose.network.WeatherViewModelFactory
+import kotlinx.coroutines.flow.FlowCollector
 
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by lazy {
@@ -29,28 +33,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherComposeTheme {
                 Scaffold { innerPadding ->
-                    WeatherUi(
-                        temperature = "25",
-                        weatherIcon = R.drawable.ic_sunny,
-                        weatherCondition = "Sunny",
-                        forecastList = listOf(
-                            Forecast("Monday", "25", R.drawable.ic_rain, "Rain"),
-                            Forecast("Tuesday", "26", R.drawable.ic_sunny, "Sunny"),
-                            Forecast("Wednesday", "27", R.drawable.ic_cloudy, "Cloudy"),
-                            Forecast("Thursday", "28", R.drawable.ic_rain, "Rainy"),
-                            Forecast("Friday", "29", R.drawable.ic_sunny, "Sunny"),
-                            Forecast("Saturday", "30", R.drawable.ic_cloudy, "Cloudy"),
-                        ),
+                    WeatherScreen(
+                        weatherViewModel = weatherViewModel,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
-        }
-
-        weatherViewModel.getCurrentWeather("L6P4A9")
-
-        weatherViewModel.currentWeather.observe(this) {
-            Log.d("WeatherViewModel", "Current weather: $it")
         }
     }
 }
