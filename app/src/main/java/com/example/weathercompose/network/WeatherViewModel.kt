@@ -23,14 +23,12 @@ class WeatherViewModel(private val repository: WeatherApiRepository) : ViewModel
             _loadingLiveData.emit(true)
             try {
                 val weather = repository.getCurrentWeather(postalCode)
-                val weatherIcon =
-                    repository.getWeatherIcon(weather.current?.condition?.icon.orEmpty())
 
                 val weatherData = WeatherData(
                     currentTemperature = weather.current?.temp_c.toString(),
                     locationName = weather.location?.name.orEmpty(),
                     weatherCondition = weather.current?.condition?.text.orEmpty(),
-                    weatherIcon = weatherIcon
+                    weatherIcon = weather.current?.condition?.icon.orEmpty()
                 )
                 _currentWeather.emit(weatherData)
             } catch (e: Exception) {

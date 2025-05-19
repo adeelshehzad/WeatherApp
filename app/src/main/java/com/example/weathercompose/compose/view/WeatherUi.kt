@@ -1,17 +1,13 @@
 package com.example.weathercompose.compose.view
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -25,20 +21,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.weathercompose.R
-import com.example.weathercompose.compose.model.Forecast
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.weathercompose.compose.theme.WeatherComposeTheme
-import com.example.weathercompose.model.Weather
 import com.example.weathercompose.model.WeatherData
 import com.example.weathercompose.network.WeatherViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun WeatherScreen(
@@ -48,7 +42,7 @@ fun WeatherScreen(
     var locationInput by remember { mutableStateOf("") }
 
     WeatherUi(
-        weatherData= weatherViewModel.currentWeather.collectAsState().value,
+        weatherData = weatherViewModel.currentWeather.collectAsState().value,
         locationInput = locationInput,
         onLocationValueChange = { locationInput = it },
         onGetWeatherBtnClick = { weatherViewModel.getCurrentWeather(locationInput) },
@@ -64,7 +58,7 @@ fun WeatherUi(
     onGetWeatherBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+    val context = LocalContext.current
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -86,36 +80,53 @@ fun WeatherUi(
             Text("Update")
         }
         if (weatherData != null) {
+            val iconUrl = buildString {
+                append("https:").append(weatherData.weatherIcon)
+            }
             Text(
                 text = weatherData.locationName,
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp)
+                    .padding(top = 32.dp),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = SimpleDateFormat("EEE, MM d hh:mm a", java.util.Locale.getDefault()).format(
+                    Date()
+                ),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                textAlign = TextAlign.Center
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Image(
+                    painter = rememberAsyncImagePainter(iconUrl),
+                    modifier = Modifier.size(64.dp),
+                    contentDescription = "Weather Condition",
+                    contentScale = ContentScale.Fit
+                )
                 Text(
                     text = "${weatherData.currentTemperature}°C",
-                    style = MaterialTheme.typography.headlineLarge,
-                )
-
-                Image(
-                    bitmap = weatherData.weatherIcon?.asImageBitmap() ?: ImageBitmap(1, 1),
-                    contentDescription = "",
-                    modifier = Modifier.size(size = 64.dp)
+                    style = MaterialTheme.typography.displayLarge,
                 )
             }
+
             Text(
                 text = weatherData.weatherCondition,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
 //        Text(
 //            text = "Forecast",
@@ -156,14 +167,13 @@ fun WeatherUi(
 @Composable
 fun WeatherUiPreview() {
     WeatherComposeTheme {
-        val context = LocalContext.current
         Scaffold { innerPadding ->
             WeatherUi(
                 WeatherData(
                     currentTemperature = "25",
                     locationName = "Toronto",
                     weatherCondition = "Sunny",
-                    weatherIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_sunny)
+                    weatherIcon = ""
                 ),
                 locationInput = "",
                 onLocationValueChange = {},
