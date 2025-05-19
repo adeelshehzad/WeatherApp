@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.converter.gson)
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
     implementation(libs.coil.compose)
+    implementation(libs.com.google.android.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
