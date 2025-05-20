@@ -1,0 +1,393 @@
+{
+  "province": "Ontario",
+  "cities": [
+    {
+      "city": "Toronto",
+      "province": "ON"
+    },
+    {
+      "city": "Ottawa",
+      "province": "ON"
+    },
+    {
+      "city": "Mississauga",
+      "province": "ON"
+    },
+    {
+      "city": "Brampton",
+      "province": "ON"
+    },
+    {
+      "city": "Hamilton",
+      "province": "ON"
+    },
+    {
+      "city": "London",
+      "province": "ON"
+    },
+    {
+      "city": "Markham",
+      "province": "ON"
+    },
+    {
+      "city": "Vaughan",
+      "province": "ON"
+    },
+    {
+      "city": "Kitchener",
+      "province": "ON"
+    },
+    {
+      "city": "Windsor",
+      "province": "ON"
+    },
+    {
+      "city": "Richmond Hill",
+      "province": "ON"
+    },
+    {
+      "city": "Oakville",
+      "province": "ON"
+    },
+    {
+      "city": "Burlington",
+      "province": "ON"
+    },
+    {
+      "city": "Greater Sudbury",
+      "province": "ON"
+    },
+    {
+      "city": "Oshawa",
+      "province": "ON"
+    },
+    {
+      "city": "Barrie",
+      "province": "ON"
+    },
+    {
+      "city": "St. Catharines",
+      "province": "ON"
+    },
+    {
+      "city": "Cambridge",
+      "province": "ON"
+    },
+    {
+      "city": "Kingston",
+      "province": "ON"
+    },
+    {
+      "city": "Guelph",
+      "province": "ON"
+    },
+    {
+      "city": "Thunder Bay",
+      "province": "ON"
+    },
+    {
+      "city": "Waterloo",
+      "province": "ON"
+    },
+    {
+      "city": "Brantford",
+      "province": "ON"
+    },
+    {
+      "city": "Pickering",
+      "province": "ON"
+    },
+    {
+      "city": "Niagara Falls",
+      "province": "ON"
+    },
+    {
+      "city": "Peterborough",
+      "province": "ON"
+    },
+    {
+      "city": "Kawartha Lakes",
+      "province": "ON"
+    },
+    {
+      "city": "Sault Ste. Marie",
+      "province": "ON"
+    },
+    {
+      "city": "Milton",
+      "province": "ON"
+    },
+    {
+      "city": "Whitby",
+      "province": "ON"
+    },
+    {
+      "city": "Ajax",
+      "province": "ON"
+    },
+    {
+      "city": "North Bay",
+      "province": "ON"
+    },
+    {
+      "city": "Welland",
+      "province": "ON"
+    },
+    {
+      "city": "Belleville",
+      "province": "ON"
+    },
+    {
+      "city": "Clarington",
+      "province": "ON"
+    },
+    {
+      "city": "Aurora",
+      "province": "ON"
+    },
+    {
+      "city": "Timmins",
+      "province": "ON"
+    },
+    {
+      "city": "Orillia",
+      "province": "ON"
+    },
+    {
+      "city": "Cornwall",
+      "province": "ON"
+    },
+    {
+      "city": "Stratford",
+      "province": "ON"
+    },
+    {
+      "city": "Woodstock",
+      "province": "ON"
+    },
+    {
+      "city": "St. Thomas",
+      "province": "ON"
+    },
+    {
+      "city": "Innisfil",
+      "province": "ON"
+    },
+    {
+      "city": "Leamington",
+      "province": "ON"
+    },
+    {
+      "city": "LaSalle",
+      "province": "ON"
+    },
+    {
+      "city": "Owen Sound",
+      "province": "ON"
+    },
+    {
+      "city": "Quinte West",
+      "province": "ON"
+    },
+    {
+      "city": "Orangeville",
+      "province": "ON"
+    },
+    {
+      "city": "Georgina",
+      "province": "ON"
+    },
+    {
+      "city": "Collingwood",
+      "province": "ON"
+    },
+    {
+      "city": "Midland",
+      "province": "ON"
+    },
+    {
+      "city": "Bradford West Gwillimbury",
+      "province": "ON"
+    },
+    {
+      "city": "Gravenhurst",
+      "province": "ON"
+    },
+    {
+      "city": "Niagara-on-the-Lake",
+      "province": "ON"
+    },
+    {
+      "city": "Kenora",
+      "province": "ON"
+    },
+    {
+      "city": "Bracebridge",
+      "province": "ON"
+    },
+    {
+      "city": "Elliot Lake",
+      "province": "ON"
+    },
+    {
+      "city": "Arnprior",
+      "province": "ON"
+    },
+    {
+      "city": "Wasaga Beach",
+      "province": "ON"
+    },
+    {
+      "city": "Huntsville",
+      "province": "ON"
+    },
+    {
+      "city": "Brockville",
+      "province": "ON"
+    },
+    {
+      "city": "Cobourg",
+      "province": "ON"
+    },
+    {
+      "city": "Kincardine",
+      "province": "ON"
+    },
+    {
+      "city": "Kapuskasing",
+      "province": "ON"
+    },
+    {
+      "city": "Dryden",
+      "province": "ON"
+    },
+    {
+      "city": "Temiskaming Shores",
+      "province": "ON"
+    },
+    {
+      "city": "Parry Sound",
+      "province": "ON"
+    },
+    {
+      "city": "Smiths Falls",
+      "province": "ON"
+    },
+    {
+      "city": "Port Hope",
+      "province": "ON"
+    },
+    {
+      "city": "Renfrew",
+      "province": "ON"
+    },
+    {
+      "city": "Carleton Place",
+      "province": "ON"
+    },
+    {
+      "city": "Petawawa",
+      "province": "ON"
+    },
+    {
+      "city": "Pembroke",
+      "province": "ON"
+    },
+    {
+      "city": "Kirkland Lake",
+      "province": "ON"
+    },
+    {
+      "city": "Moosonee",
+      "province": "ON"
+    },
+    {
+      "city": "Fort Frances",
+      "province": "ON"
+    },
+    {
+      "city": "Hearst",
+      "province": "ON"
+    },
+    {
+      "city": "Englehart",
+      "province": "ON"
+    },
+    {
+      "city": "Sioux Lookout",
+      "province": "ON"
+    },
+    {
+      "city": "Marathon",
+      "province": "ON"
+    },
+    {
+      "city": "Red Lake",
+      "province": "ON"
+    },
+    {
+      "city": "Wawa",
+      "province": "ON"
+    },
+    {
+      "city": "Geraldton",
+      "province": "ON"
+    },
+    {
+      "city": "Nipigon",
+      "province": "ON"
+    },
+    {
+      "city": "Thessalon",
+      "province": "ON"
+    },
+    {
+      "city": "Rainy River",
+      "province": "ON"
+    },
+    {
+      "city": "Blind River",
+      "province": "ON"
+    },
+    {
+      "city": "Atikokan",
+      "province": "ON"
+    },
+    {
+      "city": "Schreiber",
+      "province": "ON"
+    },
+    {
+      "city": "Ignace",
+      "province": "ON"
+    },
+    {
+      "city": "Smooth Rock Falls",
+      "province": "ON"
+    },
+    {
+      "city": "Manitouwadge",
+      "province": "ON"
+    },
+    {
+      "city": "Hornepayne",
+      "province": "ON"
+    },
+    {
+      "city": "Chapleau",
+      "province": "ON"
+    },
+    {
+      "city": "Terrace Bay",
+      "province": "ON"
+    },
+    {
+      "city": "White River",
+      "province": "ON"
+    },
+    {
+      "city": "Mattawa",
+      "province": "ON"
+    }
+  ]
+}
