@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.com.squareup.okhttp3.logging.interceptor)
     implementation(libs.coil.compose)
     implementation(libs.com.google.android.play.services.location)
+    implementation(libs.androidx.navigation.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
