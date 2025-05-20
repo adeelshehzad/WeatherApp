@@ -8,14 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weathercompose.compose.theme.WeatherComposeTheme
 import com.example.weathercompose.compose.view.MainScreen
-import com.example.weathercompose.network.RetrofitInstance
-import com.example.weathercompose.network.WeatherApiRepositoryImpl
-import com.example.weathercompose.network.WeatherViewModel
-import com.example.weathercompose.network.WeatherViewModelFactory
+import com.example.weathercompose.data.network.RetrofitInstance
+import com.example.weathercompose.data.network.WeatherApiRepositoryImpl
+import com.example.weathercompose.data.network.WeatherViewModel
+import com.example.weathercompose.data.network.WeatherViewModelFactory
 
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by lazy {
-        WeatherViewModelFactory(WeatherApiRepositoryImpl(RetrofitInstance.api)).create(
+        WeatherViewModelFactory(WeatherApiRepositoryImpl(RetrofitInstance.getWeatherApiService(this@MainActivity))).create(
             WeatherViewModel::class.java
         )
     }

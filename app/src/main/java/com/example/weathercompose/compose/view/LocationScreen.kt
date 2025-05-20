@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,11 +33,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.weathercompose.R
 import com.example.weathercompose.compose.RequestLocationPermission
 import com.example.weathercompose.compose.theme.primaryDark
 import com.example.weathercompose.compose.theme.primaryLight
-import com.example.weathercompose.network.WeatherViewModel
+import com.example.weathercompose.model.WeatherData
+import com.example.weathercompose.data.network.WeatherViewModel
 import com.google.android.gms.location.LocationServices
 
 @SuppressLint("MissingPermission")
@@ -49,26 +50,23 @@ fun LocationScreen(
 ) {
     val context = LocalContext.current
     GetLocationAndWeatherData(context, weatherViewModel)
+
     val weatherData = weatherViewModel.currentWeather.collectAsState().value
-    if (weatherData != null) {
-        LocationUi(
-            weatherIconUrl = weatherData.weatherIcon,
-            currentLocation = weatherData.locationName,
-            weatherCondition = weatherData.weatherCondition,
-            currentTemperature = weatherData.currentTemperature,
-            onLocationClick = onNavigateToWeatherScreen,
-            onSearchClick = onNavigateToSearch,
-            modifier = modifier
-        )
-    }
+    val loading = weatherViewModel.loadingLiveData.collectAsState().value
+
+    LocationUi(
+        weatherData = weatherData,
+        isLoading = loading,
+        onLocationClick = onNavigateToWeatherScreen,
+        onSearchClick = onNavigateToSearch,
+        modifier = modifier
+    )
 }
 
 @Composable
 fun LocationUi(
-    weatherIconUrl: String,
-    currentLocation: String,
-    weatherCondition: String,
-    currentTemperature: String,
+    weatherData: WeatherData?,
+    isLoading: Boolean,
     onLocationClick: () -> Unit,
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -88,10 +86,8 @@ fun LocationUi(
         }
 
         LocationCard(
-            weatherIconUrl = weatherIconUrl,
-            currentLocation = currentLocation,
-            weatherCondition = weatherCondition,
-            currentTemperature = currentTemperature,
+            weatherData = weatherData,
+            isLoading = isLoading,
             onLocationClick = onLocationClick
         )
 
@@ -115,10 +111,8 @@ fun LocationUi(
 
 @Composable
 fun LocationCard(
-    weatherIconUrl: String,
-    currentLocation: String,
-    weatherCondition: String,
-    currentTemperature: String,
+    weatherData: WeatherData?,
+    isLoading: Boolean,
     onLocationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -136,30 +130,46 @@ fun LocationCard(
                 .padding(vertical = 8.dp, horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(context = context)
-                        .data("https:$weatherIconUrl")
-                        .placeholder(R.drawable.ic_airwave)
-                        .build()
-                ),
-                contentDescription = "Location Icon",
-                modifier = Modifier
-                    .background(
-                        color = weatherIconBackground,
-                        shape = androidx.compose.foundation.shape.CircleShape
+            if (weatherData != null) {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        model = ImageRequest.Builder(context = context)
+                            .data("https:${weatherData.weatherIcon}")
+                            .listener()
+                            .build()
+                    ),
+                    contentDescription = "Location Icon",
+                    modifier = Modifier
+                        .background(
+                            color = weatherIconBackground,
+                            shape = CircleShape
+                        )
+                        .padding(4.dp)
+                        .size(32.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                ) {
+                    Text(
+                        text = weatherData.locationName,
+                        style = MaterialTheme.typography.titleMedium
                     )
-                    .padding(4.dp)
-            )
-            Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(text = currentLocation, style = MaterialTheme.typography.titleMedium)
-                Text(text = weatherCondition, style = MaterialTheme.typography.labelSmall)
+                    Text(
+                        text = weatherData.weatherCondition,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "${weatherData.currentTemperature}°C",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+                CircularProgressIndicator()
+                Spacer(modifier = Modifier.weight(1f))
             }
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "$currentTemperature°C",
-                style = MaterialTheme.typography.headlineSmall
-            )
         }
     }
 }
@@ -187,10 +197,8 @@ fun GetLocationAndWeatherData(context: Context, weatherViewModel: WeatherViewMod
 @Composable
 fun LocationScreenPreview() {
     LocationUi(
-        weatherIconUrl = "https://cdn.weatherapi.com/weather/64x64/day/113.png",
-        currentLocation = "Current Location",
-        weatherCondition = "Weather Condition",
-        currentTemperature = "25",
+        weatherData = null,
+        isLoading = true,
         onLocationClick = {},
         onSearchClick = {}
     )

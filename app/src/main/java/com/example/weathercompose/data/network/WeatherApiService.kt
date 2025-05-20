@@ -1,4 +1,4 @@
-package com.example.weathercompose.network
+package com.example.weathercompose.data.network
 
 import com.example.weathercompose.model.Weather
 import okhttp3.ResponseBody

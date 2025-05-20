@@ -2,7 +2,11 @@ package com.example.weathercompose.compose.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,18 +22,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.weathercompose.AppDestinations
-import com.example.weathercompose.network.WeatherViewModel
+import com.example.weathercompose.data.network.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navHostController: NavHostController, weatherViewModel: WeatherViewModel) {
     val currentBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = currentBackStackEntry?.destination?.route
+
     var searchQuery by remember { mutableStateOf("") }
+    var selectedCity by remember { mutableStateOf("") }
 
     val topBarTitle = when (currentDestination) {
         AppDestinations.LOCATION_SCREEN_ROUTE -> "Weather"
-        AppDestinations.WEATHER_SCREEN_ROUTE -> "Weather"
+        AppDestinations.WEATHER_SCREEN_ROUTE -> selectedCity
         else -> "Weather App"
     }
 
@@ -45,7 +51,17 @@ fun MainScreen(navHostController: NavHostController, weatherViewModel: WeatherVi
             else -> {
                 TopAppBar(
                     title = { Text(text = topBarTitle) },
-                    modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primary),
+                    navigationIcon = {
+                        if (currentDestination != AppDestinations.LOCATION_SCREEN_ROUTE) {
+                            IconButton(onClick = { navHostController.navigate(AppDestinations.LOCATION_SCREEN_ROUTE) }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                    }
                 )
             }
         }
@@ -68,7 +84,12 @@ fun MainScreen(navHostController: NavHostController, weatherViewModel: WeatherVi
                     weatherViewModel = weatherViewModel,
                     onNavigateBack = { navHostController.navigateUp() })
             }
-            composable(AppDestinations.SEARCH_SCREEN_ROUTE) { SearchScreen() }
+            composable(AppDestinations.SEARCH_SCREEN_ROUTE) {
+                SearchScreen(
+                    searchQuery = searchQuery,
+                    onCitySelected = { selectedCity = it },
+                    onNavigateToWeatherScreen = { navHostController.navigate(AppDestinations.WEATHER_SCREEN_ROUTE) })
+            }
         }
     }
 }

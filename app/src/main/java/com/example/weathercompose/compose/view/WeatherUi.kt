@@ -32,7 +32,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.weathercompose.compose.RequestLocationPermission
 import com.example.weathercompose.compose.theme.WeatherComposeTheme
 import com.example.weathercompose.model.WeatherData
-import com.example.weathercompose.network.WeatherViewModel
+import com.example.weathercompose.data.network.WeatherViewModel
 import com.google.android.gms.location.LocationServices
 import java.text.SimpleDateFormat
 import java.util.Date

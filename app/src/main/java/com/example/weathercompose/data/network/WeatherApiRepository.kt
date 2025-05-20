@@ -1,4 +1,4 @@
-package com.example.weathercompose.network
+package com.example.weathercompose.data.network
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

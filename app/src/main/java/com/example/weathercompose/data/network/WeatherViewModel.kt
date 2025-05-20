@@ -1,4 +1,4 @@
-package com.example.weathercompose.network
+package com.example.weathercompose.data.network
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
