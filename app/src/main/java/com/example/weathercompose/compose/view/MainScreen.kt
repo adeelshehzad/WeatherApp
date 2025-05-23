@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -87,8 +88,13 @@ fun MainScreen(navHostController: NavHostController, weatherViewModel: WeatherVi
             composable(AppDestinations.SEARCH_SCREEN_ROUTE) {
                 SearchScreen(
                     searchQuery = searchQuery,
+                    savedCities = weatherViewModel.savedCities.collectAsState().value,
                     onCitySelected = { selectedCity = it },
-                    onNavigateToWeatherScreen = { navHostController.navigate(AppDestinations.WEATHER_SCREEN_ROUTE) })
+                    onNavigateToWeatherScreen = { navHostController.navigate(AppDestinations.WEATHER_SCREEN_ROUTE) },
+                    onSaveCityClicked = { cityToSave ->
+                        weatherViewModel.saveCity(cityToSave)
+                        navHostController.navigate(AppDestinations.LOCATION_SCREEN_ROUTE)
+                    })
             }
         }
     }

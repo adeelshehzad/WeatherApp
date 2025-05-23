@@ -2,6 +2,7 @@ package com.example.weathercompose.compose.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,10 +12,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -36,8 +40,9 @@ import coil.request.ImageRequest
 import com.example.weathercompose.compose.RequestLocationPermission
 import com.example.weathercompose.compose.theme.primaryDark
 import com.example.weathercompose.compose.theme.primaryLight
-import com.example.weathercompose.model.WeatherData
 import com.example.weathercompose.data.network.WeatherViewModel
+import com.example.weathercompose.model.SavedCityWeather
+import com.example.weathercompose.model.WeatherData
 import com.google.android.gms.location.LocationServices
 
 @SuppressLint("MissingPermission")
@@ -49,14 +54,18 @@ fun LocationScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    weatherViewModel.getSavedCities()
     GetLocationAndWeatherData(context, weatherViewModel)
+//    GetWeatherDataForSavedCities(weatherViewModel)
 
     val weatherData = weatherViewModel.currentWeather.collectAsState().value
-    val loading = weatherViewModel.loadingLiveData.collectAsState().value
+    Log.d("WeatherApp", "weatherData: $weatherData")
+    val savedCityWeather = weatherViewModel.savedCities.collectAsState().value
+    Log.d("WeatherApp", "savedCityWeather: $savedCityWeather")
 
     LocationUi(
         weatherData = weatherData,
-        isLoading = loading,
+        savedCityWeather = savedCityWeather,
         onLocationClick = onNavigateToWeatherScreen,
         onSearchClick = onNavigateToSearch,
         modifier = modifier
@@ -66,31 +75,16 @@ fun LocationScreen(
 @Composable
 fun LocationUi(
     weatherData: WeatherData?,
-    isLoading: Boolean,
+    savedCityWeather: List<SavedCityWeather>,
     onLocationClick: () -> Unit,
     onSearchClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val searchIconBackground = if (isSystemInDarkTheme()) primaryDark else primaryLight
     Column(modifier = modifier.padding(16.dp)) {
-        Row(modifier = Modifier) {
-            Icon(
-                painter = rememberVectorPainter(image = Icons.Default.LocationOn),
-                contentDescription = "Current Location"
-            )
-            Text(
-                text = "Current Location",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(start = 4.dp)
-            )
-        }
-
-        LocationCard(
-            weatherData = weatherData,
-            isLoading = isLoading,
-            onLocationClick = onLocationClick
-        )
-
+        CurrentLocation(weatherData = weatherData, onLocationClick = onLocationClick)
+        if (savedCityWeather.isNotEmpty())
+            SavedLocations(savedCityWeather = savedCityWeather)
         Spacer(modifier = Modifier.weight(1f))
         IconButton(
             onClick = onSearchClick,
@@ -110,9 +104,59 @@ fun LocationUi(
 }
 
 @Composable
+fun CurrentLocation(
+    weatherData: WeatherData?,
+    onLocationClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier) {
+        Icon(
+            painter = rememberVectorPainter(image = Icons.Default.LocationOn),
+            contentDescription = "Current Location"
+        )
+        Text(
+            text = "Current Location",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(start = 4.dp)
+        )
+    }
+
+    LocationCard(
+        weatherData = weatherData,
+        onLocationClick = onLocationClick,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun SavedLocations(savedCityWeather: List<SavedCityWeather>, modifier: Modifier = Modifier) {
+    Log.d("WeatherApp", "saved location: $savedCityWeather ")
+    Row(modifier = modifier.padding(top = 16.dp)) {
+        Icon(
+            painter = rememberVectorPainter(image = Icons.Default.Star),
+            contentDescription = "Saved Location"
+        )
+        Text(
+            text = "Saved Location",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(start = 4.dp)
+        )
+    }
+
+    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        items(savedCityWeather) { city ->
+            LocationCard(
+                weatherData = city.toWeatherData(),
+                onLocationClick = {},
+                modifier = Modifier.fillParentMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
 fun LocationCard(
     weatherData: WeatherData?,
-    isLoading: Boolean,
     onLocationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -120,7 +164,6 @@ fun LocationCard(
     val weatherIconBackground = if (isSystemInDarkTheme()) Color.White else Color.Black
     Card(
         onClick = onLocationClick, modifier = modifier
-            .fillMaxWidth()
             .padding(top = 16.dp),
         shape = androidx.compose.foundation.shape.RoundedCornerShape(32.dp)
     ) {
@@ -197,8 +240,11 @@ fun GetLocationAndWeatherData(context: Context, weatherViewModel: WeatherViewMod
 @Composable
 fun LocationScreenPreview() {
     LocationUi(
-        weatherData = null,
-        isLoading = true,
+        weatherData = WeatherData("25", "Sunny", "Brampton", ""),
+        savedCityWeather = listOf(
+            SavedCityWeather("Barrie", "25", "Sunny", ""),
+            SavedCityWeather("Toronto", "25", "Sunny", "")
+        ),
         onLocationClick = {},
         onSearchClick = {}
     )

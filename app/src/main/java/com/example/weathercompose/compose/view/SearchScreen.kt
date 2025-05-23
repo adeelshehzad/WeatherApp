@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,12 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.weathercompose.loadCityListFromAssets
+import com.example.weathercompose.model.SavedCityWeather
 
 @Composable
 fun SearchScreen(
     searchQuery: String,
+    savedCities: List<SavedCityWeather>,
     onCitySelected: (String) -> Unit,
     onNavigateToWeatherScreen: () -> Unit,
+    onSaveCityClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     HorizontalDivider()
@@ -45,6 +47,15 @@ fun SearchScreen(
     Column(modifier = modifier) {
         LazyColumn {
             items(filteredCities) { cities ->
+                val isCityAlreadySaved = remember(savedCities, cities) {
+                    savedCities.any { savedCity ->
+                        savedCity.cityName.equals(
+                            other = cities,
+                            ignoreCase = true
+                        )
+                    }
+                }
+
                 Row {
                     Text(
                         text = cities,
@@ -53,11 +64,13 @@ fun SearchScreen(
                                 onCitySelected(cities)
                                 onNavigateToWeatherScreen()
                             }
-                            .padding(8.dp)
+                            .padding(all = 8.dp)
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Button(onClick = {}) {
-                        Text(text = "Save")
+                    if (!isCityAlreadySaved) {
+                        Button(onClick = { onSaveCityClicked(cities) }) {
+                            Text(text = "Save")
+                        }
                     }
                 }
             }
