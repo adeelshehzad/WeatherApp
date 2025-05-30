@@ -3,7 +3,11 @@ package com.example.weathercompose.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Current(
+data class Hour(
+    @SerializedName("chance_of_rain")
+    val chanceOfRain: Int,
+    @SerializedName("chance_of_snow")
+    val chanceOfSnow: Int,
     @SerializedName("cloud")
     val cloud: Int,
     @SerializedName("condition")
@@ -28,34 +32,40 @@ data class Current(
     val humidity: Int,
     @SerializedName("is_day")
     val isDay: Int,
-    @SerializedName("last_updated")
-    val lastUpdated: String,
-    @SerializedName("last_updated_epoch")
-    val lastUpdatedEpoch: Int,
     @SerializedName("precip_in")
-    val precipIn: Int,
+    val precipIn: Double,
     @SerializedName("precip_mm")
-    val precipMm: Int,
+    val precipMm: Double,
     @SerializedName("pressure_in")
     val pressureIn: Double,
     @SerializedName("pressure_mb")
     val pressureMb: Int,
+    @SerializedName("snow_cm")
+    val snowCm: Int,
     @SerializedName("temp_c")
     val tempC: Double,
     @SerializedName("temp_f")
     val tempF: Double,
+    @SerializedName("time")
+    val time: String,
+    @SerializedName("time_epoch")
+    val timeEpoch: Int,
     @SerializedName("uv")
     val uv: Double,
     @SerializedName("vis_km")
     val visKm: Int,
     @SerializedName("vis_miles")
     val visMiles: Int,
+    @SerializedName("will_it_rain")
+    val willItRain: Int,
+    @SerializedName("will_it_snow")
+    val willItSnow: Int,
     @SerializedName("wind_degree")
     val windDegree: Int,
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("wind_kph")
-    val windKph: Int,
+    val windKph: Double,
     @SerializedName("wind_mph")
     val windMph: Double,
     @SerializedName("windchill_c")

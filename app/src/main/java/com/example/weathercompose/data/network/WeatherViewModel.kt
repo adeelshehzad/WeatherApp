@@ -14,62 +14,65 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WeatherViewModel(private val repository: WeatherApiRepository) : ViewModel() {
-    private val _loadingLiveData = MutableStateFlow(false)
-    val loadingLiveData: StateFlow<Boolean> get() = _loadingLiveData
+    private val _loadingStateFlow = MutableStateFlow(false)
+    val loadingStateFlow: StateFlow<Boolean> get() = _loadingStateFlow
 
-    private val _errorLiveData = MutableStateFlow<String?>(null)
-    val errorLiveData: StateFlow<String?> get() = _errorLiveData
+    private val _errorStateFlow = MutableStateFlow<String?>(null)
+    val errorStateFlow: StateFlow<String?> get() = _errorStateFlow
 
-    private val _currentWeather = MutableStateFlow<WeatherData?>(null)
-    val currentWeather: StateFlow<WeatherData?> get() = _currentWeather
+    private val _weatherStateFlow = MutableStateFlow<WeatherData?>(null)
+    val weatherStateFlow: StateFlow<WeatherData?> get() = _weatherStateFlow
 
-    private val _savedCities = MutableStateFlow<List<SavedCityWeather>>(emptyList())
-    val savedCities: StateFlow<List<SavedCityWeather>> get() = _savedCities
+    private val _savedCitiesStateFlow = MutableStateFlow<List<SavedCityWeather>>(emptyList())
+    val savedCitiesStateFlow: StateFlow<List<SavedCityWeather>> get() = _savedCitiesStateFlow
 
-    fun getCurrentWeather(postalCode: String) {
+    fun getWeather(location: String) {
         viewModelScope.launch {
-            _loadingLiveData.emit(true)
+            _loadingStateFlow.emit(true)
             try {
-                val weather = repository.getCurrentWeather(postalCode)
+                val weather = repository.getWeather(location, 3)
 
                 val weatherData = WeatherData(
-                    currentTemperature = weather.current?.temp_c.toString(),
-                    locationName = weather.location?.name.orEmpty(),
-                    weatherCondition = weather.current?.condition?.text.orEmpty(),
-                    weatherIcon = weather.current?.condition?.icon.orEmpty()
+                    currentTemperature = weather.current.tempC.toString(),
+                    weatherCondition = weather.current.condition.text,
+                    locationName = weather.location.name,
+                    weatherIcon = weather.current.condition.icon,
+                    feelsLike = weather.current.feelslikeC.toString(),
+                    highTemperature = weather.forecast.forecastDay[0].day.maxtempC.toString(),
+                    lowTemperature = weather.forecast.forecastDay[0].day.mintempC.toString()
                 )
-                _currentWeather.emit(weatherData)
+                _weatherStateFlow.emit(weatherData)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _errorLiveData.emit(e.message)
+                _errorStateFlow.emit(e.message)
             }
-            _loadingLiveData.emit(false)
+            _loadingStateFlow.emit(false)
         }
     }
 
     fun getSavedCities() {
         viewModelScope.launch {
-            _loadingLiveData.emit(true)
+            _loadingStateFlow.emit(true)
             try {
                 val savedCitiesWeather = withContext(Dispatchers.IO) {
                     val cities = repository.getSavedCities()
                     cities.map { city ->
                         Log.d(WeatherViewModel::class.java.simpleName, "Fetching weather for $city")
-                        val weather = repository.getCurrentWeather(city.cityName)
+                        val weather = repository.getWeather(city.cityName, 1)
                         SavedCityWeather(
                             cityName = city.cityName,
-                            currentTemperature = weather.current?.temp_c.toString(),
-                            weatherCondition = weather.current?.condition?.text.orEmpty(),
-                            weatherIcon = weather.current?.condition?.icon.orEmpty()
+                            currentTemperature = weather.current.tempC.toString(),
+                            weatherCondition = weather.current.condition.text,
+                            weatherIcon = weather.current.condition.icon
                         )
                     }
                 }
-                _savedCities.emit(savedCitiesWeather)
+                _savedCitiesStateFlow.emit(savedCitiesWeather)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _errorLiveData.emit(e.message)
+                _errorStateFlow.emit(e.message)
             }
-            _loadingLiveData.emit(false)
+            _loadingStateFlow.emit(false)
         }
     }
 
