@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Astro(
     @SerializedName("is_moon_up")
-    val isMoonUp: Int,
+    val isMoonUp: Double,
     @SerializedName("is_sun_up")
-    val isSunUp: Int,
+    val isSunUp: Double,
     @SerializedName("moon_illumination")
-    val moonIllumination: Int,
+    val moonIllumination: Double,
     @SerializedName("moon_phase")
     val moonPhase: String,
     @SerializedName("moonrise")

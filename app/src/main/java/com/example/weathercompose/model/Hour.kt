@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 
 data class Hour(
     @SerializedName("chance_of_rain")
-    val chanceOfRain: Int,
+    val chanceOfRain: Double,
     @SerializedName("chance_of_snow")
-    val chanceOfSnow: Int,
+    val chanceOfSnow: Double,
     @SerializedName("cloud")
-    val cloud: Int,
+    val cloud: Double,
     @SerializedName("condition")
     val condition: Condition,
-    @SerializedName("dewpoint_c")
-    val dewpointC: Double,
-    @SerializedName("dewpoint_f")
-    val dewpointF: Double,
+    @SerializedName("dewpoDouble_c")
+    val dewpoDoubleC: Double,
+    @SerializedName("dewpoDouble_f")
+    val dewpoDoubleF: Double,
     @SerializedName("feelslike_c")
     val feelslikeC: Double,
     @SerializedName("feelslike_f")
@@ -29,9 +29,9 @@ data class Hour(
     @SerializedName("heatindex_f")
     val heatindexF: Double,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Double,
     @SerializedName("is_day")
-    val isDay: Int,
+    val isDay: Double,
     @SerializedName("precip_in")
     val precipIn: Double,
     @SerializedName("precip_mm")
@@ -39,9 +39,9 @@ data class Hour(
     @SerializedName("pressure_in")
     val pressureIn: Double,
     @SerializedName("pressure_mb")
-    val pressureMb: Int,
+    val pressureMb: Double,
     @SerializedName("snow_cm")
-    val snowCm: Int,
+    val snowCm: Double,
     @SerializedName("temp_c")
     val tempC: Double,
     @SerializedName("temp_f")
@@ -49,19 +49,19 @@ data class Hour(
     @SerializedName("time")
     val time: String,
     @SerializedName("time_epoch")
-    val timeEpoch: Int,
+    val timeEpoch: Double,
     @SerializedName("uv")
     val uv: Double,
     @SerializedName("vis_km")
-    val visKm: Int,
+    val visKm: Double,
     @SerializedName("vis_miles")
-    val visMiles: Int,
+    val visMiles: Double,
     @SerializedName("will_it_rain")
-    val willItRain: Int,
+    val willItRain: Double,
     @SerializedName("will_it_snow")
-    val willItSnow: Int,
+    val willItSnow: Double,
     @SerializedName("wind_degree")
-    val windDegree: Int,
+    val windDegree: Double,
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("wind_kph")

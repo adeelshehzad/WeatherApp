@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Day(
     @SerializedName("avghumidity")
-    val avghumidity: Int,
+    val avghumidity: Double,
     @SerializedName("avgtemp_c")
     val avgtempC: Double,
     @SerializedName("avgtemp_f")
@@ -13,17 +13,17 @@ data class Day(
     @SerializedName("avgvis_km")
     val avgvisKm: Double,
     @SerializedName("avgvis_miles")
-    val avgvisMiles: Int,
+    val avgvisMiles: Double,
     @SerializedName("condition")
     val condition: Condition,
     @SerializedName("daily_chance_of_rain")
-    val dailyChanceOfRain: Int,
+    val dailyChanceOfRain: Double,
     @SerializedName("daily_chance_of_snow")
-    val dailyChanceOfSnow: Int,
+    val dailyChanceOfSnow: Double,
     @SerializedName("daily_will_it_rain")
-    val dailyWillItRain: Int,
+    val dailyWillItRain: Double,
     @SerializedName("daily_will_it_snow")
-    val dailyWillItSnow: Int,
+    val dailyWillItSnow: Double,
     @SerializedName("maxtemp_c")
     val maxtempC: Double,
     @SerializedName("maxtemp_f")
@@ -41,7 +41,7 @@ data class Day(
     @SerializedName("totalprecip_mm")
     val totalprecipMm: Double,
     @SerializedName("totalsnow_cm")
-    val totalsnowCm: Int,
+    val totalsnowCm: Double,
     @SerializedName("uv")
     val uv: Double
 )

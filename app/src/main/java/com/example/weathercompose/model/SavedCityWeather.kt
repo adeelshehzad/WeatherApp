@@ -17,7 +17,8 @@ data class SavedCityWeather(
             weatherIcon = weatherIcon,
             feelsLike = feelsLike,
             highTemperature = highTemperature,
-            lowTemperature = lowTemperature
+            lowTemperature = lowTemperature,
+            hourlyData = emptyList()
         )
     }
 }

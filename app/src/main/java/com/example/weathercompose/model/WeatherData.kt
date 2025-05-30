@@ -7,5 +7,13 @@ data class WeatherData(
     val weatherIcon: String,
     val feelsLike: String,
     val highTemperature: String,
-    val lowTemperature: String
+    val lowTemperature: String,
+    val hourlyData: List<HourlyData>
+)
+
+data class HourlyData(
+    val time: String,
+    val temperature: String,
+    val weatherIcon: String,
+    val changeOfRain: Double
 )

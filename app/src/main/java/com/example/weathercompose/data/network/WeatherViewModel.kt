@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.weathercompose.data.local.City
 import com.example.weathercompose.model.SavedCityWeather
 import com.example.weathercompose.model.WeatherData
+import com.example.weathercompose.model.toWeatherData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,17 +32,7 @@ class WeatherViewModel(private val repository: WeatherApiRepository) : ViewModel
             _loadingStateFlow.emit(true)
             try {
                 val weather = repository.getWeather(location, 3)
-
-                val weatherData = WeatherData(
-                    currentTemperature = weather.current.tempC.toString(),
-                    weatherCondition = weather.current.condition.text,
-                    locationName = weather.location.name,
-                    weatherIcon = weather.current.condition.icon,
-                    feelsLike = weather.current.feelslikeC.toString(),
-                    highTemperature = weather.forecast.forecastDay[0].day.maxtempC.toString(),
-                    lowTemperature = weather.forecast.forecastDay[0].day.mintempC.toString()
-                )
-                _weatherStateFlow.emit(weatherData)
+                _weatherStateFlow.emit(weather.toWeatherData())
             } catch (e: Exception) {
                 e.printStackTrace()
                 _errorStateFlow.emit(e.message)

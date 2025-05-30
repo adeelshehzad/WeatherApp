@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 
 data class Current(
     @SerializedName("cloud")
-    val cloud: Int,
+    val cloud: Double,
     @SerializedName("condition")
     val condition: Condition,
-    @SerializedName("dewpoint_c")
-    val dewpointC: Double,
-    @SerializedName("dewpoint_f")
-    val dewpointF: Double,
+    @SerializedName("dewpoDouble_c")
+    val dewpoDoubleC: Double,
+    @SerializedName("dewpoDouble_f")
+    val dewpoDoubleF: Double,
     @SerializedName("feelslike_c")
     val feelslikeC: Double,
     @SerializedName("feelslike_f")
@@ -25,21 +25,21 @@ data class Current(
     @SerializedName("heatindex_f")
     val heatindexF: Double,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Double,
     @SerializedName("is_day")
-    val isDay: Int,
+    val isDay: Double,
     @SerializedName("last_updated")
     val lastUpdated: String,
     @SerializedName("last_updated_epoch")
-    val lastUpdatedEpoch: Int,
+    val lastUpdatedEpoch: Double,
     @SerializedName("precip_in")
-    val precipIn: Int,
+    val precipIn: Double,
     @SerializedName("precip_mm")
-    val precipMm: Int,
+    val precipMm: Double,
     @SerializedName("pressure_in")
     val pressureIn: Double,
     @SerializedName("pressure_mb")
-    val pressureMb: Int,
+    val pressureMb: Double,
     @SerializedName("temp_c")
     val tempC: Double,
     @SerializedName("temp_f")
@@ -47,15 +47,15 @@ data class Current(
     @SerializedName("uv")
     val uv: Double,
     @SerializedName("vis_km")
-    val visKm: Int,
+    val visKm: Double,
     @SerializedName("vis_miles")
-    val visMiles: Int,
+    val visMiles: Double,
     @SerializedName("wind_degree")
-    val windDegree: Int,
+    val windDegree: Double,
     @SerializedName("wind_dir")
     val windDir: String,
     @SerializedName("wind_kph")
-    val windKph: Int,
+    val windKph: Double,
     @SerializedName("wind_mph")
     val windMph: Double,
     @SerializedName("windchill_c")

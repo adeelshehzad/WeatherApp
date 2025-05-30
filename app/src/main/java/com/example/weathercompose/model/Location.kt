@@ -11,7 +11,7 @@ data class Location(
     @SerializedName("localtime")
     val localtime: String,
     @SerializedName("localtime_epoch")
-    val localtimeEpoch: Int,
+    val localtimeEpoch: Double,
     @SerializedName("lon")
     val lon: Double,
     @SerializedName("name")

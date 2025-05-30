@@ -9,7 +9,7 @@ data class ForecastDay(
     @SerializedName("date")
     val date: String,
     @SerializedName("date_epoch")
-    val dateEpoch: Int,
+    val dateEpoch: Double,
     @SerializedName("day")
     val day: Day,
     @SerializedName("hour")

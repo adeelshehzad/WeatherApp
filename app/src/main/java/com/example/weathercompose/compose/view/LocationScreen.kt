@@ -2,6 +2,8 @@ package com.example.weathercompose.compose.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Geocoder
+import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
@@ -26,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,29 +48,34 @@ import com.example.weathercompose.data.network.WeatherViewModel
 import com.example.weathercompose.model.SavedCityWeather
 import com.example.weathercompose.model.WeatherData
 import com.google.android.gms.location.LocationServices
+import java.util.Locale
 
 @SuppressLint("MissingPermission")
 @Composable
 fun LocationScreen(
     weatherViewModel: WeatherViewModel,
-    onNavigateToWeatherScreen: () -> Unit,
+    onNavigateToWeatherScreen: (String) -> Unit,
     onNavigateToSearch: () -> Unit,
+    onFullyDrawn: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    LaunchedEffect(Unit) {
+        onFullyDrawn()
+    }
+
     val context = LocalContext.current
     weatherViewModel.getSavedCities()
     GetLocationAndWeatherData(context, weatherViewModel)
-//    GetWeatherDataForSavedCities(weatherViewModel)
 
-    val weatherData = weatherViewModel.currentWeather.collectAsState().value
+    val weatherData = weatherViewModel.weatherStateFlow.collectAsState().value
     Log.d("WeatherApp", "weatherData: $weatherData")
-    val savedCityWeather = weatherViewModel.savedCities.collectAsState().value
+    val savedCityWeather = weatherViewModel.savedCitiesStateFlow.collectAsState().value
     Log.d("WeatherApp", "savedCityWeather: $savedCityWeather")
 
     LocationUi(
         weatherData = weatherData,
         savedCityWeather = savedCityWeather,
-        onLocationClick = onNavigateToWeatherScreen,
+        onLocationClick = { onNavigateToWeatherScreen(weatherData?.locationName.orEmpty()) },
         onSearchClick = onNavigateToSearch,
         modifier = modifier
     )
@@ -165,7 +174,7 @@ fun LocationCard(
     Card(
         onClick = onLocationClick, modifier = modifier
             .padding(top = 16.dp),
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(32.dp)
+        shape = RoundedCornerShape(32.dp)
     ) {
         Row(
             modifier = Modifier
@@ -225,8 +234,14 @@ fun GetLocationAndWeatherData(context: Context, weatherViewModel: WeatherViewMod
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
-                    val postalCode = getPostalCode(context, location.latitude, location.longitude)
-                    weatherViewModel.getCurrentWeather(postalCode)
+                    getPostalCode(
+                        context = context,
+                        latitude = location.latitude,
+                        longitude = location.longitude,
+                        onResult = { postalCode ->
+                            weatherViewModel.getWeather(postalCode)
+                        }
+                    )
                 }
             }
         },
@@ -236,11 +251,39 @@ fun GetLocationAndWeatherData(context: Context, weatherViewModel: WeatherViewMod
     )
 }
 
+fun getPostalCode(
+    context: Context,
+    latitude: Double,
+    longitude: Double,
+    onResult: (String) -> Unit
+) {
+    val geocoder = Geocoder(context, Locale.getDefault())
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        geocoder.getFromLocation(
+            latitude,
+            longitude,
+            1
+        ) { p0 -> onResult(p0.firstOrNull()?.postalCode.orEmpty()) }
+    } else {
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        onResult(addresses?.firstOrNull()?.postalCode.orEmpty())
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun LocationScreenPreview() {
     LocationUi(
-        weatherData = WeatherData("25", "Sunny", "Brampton", ""),
+        weatherData = WeatherData(
+            currentTemperature = "25",
+            weatherCondition = "Sunny",
+            locationName = "Brampton",
+            weatherIcon = "",
+            feelsLike = "25",
+            highTemperature = "25",
+            lowTemperature = "12",
+            hourlyData = emptyList()
+        ),
         savedCityWeather = listOf(
             SavedCityWeather("Barrie", "25", "Sunny", ""),
             SavedCityWeather("Toronto", "25", "Sunny", "")

@@ -50,9 +50,7 @@ object AppDestinations {
 
 @Composable
 fun WeatherAppEntryPoint(weatherViewModel: WeatherViewModel) {
-    val navController = rememberNavController()
     MainScreen(
-        navHostController = navController,
         weatherViewModel = weatherViewModel
     )
 }
