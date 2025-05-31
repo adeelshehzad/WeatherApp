@@ -56,13 +56,8 @@ fun LocationScreen(
     weatherViewModel: WeatherViewModel,
     onNavigateToWeatherScreen: (String) -> Unit,
     onNavigateToSearch: () -> Unit,
-    onFullyDrawn: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LaunchedEffect(Unit) {
-        onFullyDrawn()
-    }
-
     val context = LocalContext.current
     weatherViewModel.getSavedCities()
     GetLocationAndWeatherData(context, weatherViewModel)
@@ -98,15 +93,16 @@ fun LocationUi(
         IconButton(
             onClick = onSearchClick,
             modifier = Modifier
-                .size(64.dp)
+                .size(128.dp)
                 .clip(CircleShape)
-                .background(color = Color(searchIconBackground))
+                .background(color = searchIconBackground)
                 .align(Alignment.CenterHorizontally)
         ) {
             Icon(
                 painter = rememberVectorPainter(image = Icons.Default.Search),
                 contentDescription = "Search Icon",
-                tint = Color.White
+                tint = Color.White,
+                modifier = Modifier.size(64.dp)
             )
         }
     }
@@ -185,10 +181,7 @@ fun LocationCard(
             if (weatherData != null) {
                 Image(
                     painter = rememberAsyncImagePainter(
-                        model = ImageRequest.Builder(context = context)
-                            .data("https:${weatherData.weatherIcon}")
-                            .listener()
-                            .build()
+                        model = "https:${weatherData.weatherIcon}"
                     ),
                     contentDescription = "Location Icon",
                     modifier = Modifier

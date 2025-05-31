@@ -49,17 +49,16 @@ fun MainScreen(weatherViewModel: WeatherViewModel) {
             }
 
             else -> {
-                val topAppBarColor = when {
-                    currentScreen != AppDestinations.WEATHER_SCREEN_ROUTE -> TopAppBarDefaults.topAppBarColors()
-                    else -> TopAppBarDefaults.topAppBarColors(
-                        containerColor = if (isSystemInDarkTheme()) Color(primaryLight) else Color(primaryDark),
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
+//                val topAppBarColor = when {
+//                    currentScreen != AppDestinations.WEATHER_SCREEN_ROUTE -> TopAppBarDefaults.topAppBarColors()
+//                    else -> TopAppBarDefaults.topAppBarColors(
+//                        containerColor = if (isSystemInDarkTheme()) primaryLight else primaryDark,
+//                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+//                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+//                    )
+//                }
                 TopAppBar(
                     title = { Text(text = topBarTitle, color = Color.White) },
-                    colors = topAppBarColor,
                     navigationIcon = {
                         if (currentScreen != AppDestinations.LOCATION_SCREEN_ROUTE) {
                             IconButton(onClick = {
@@ -88,16 +87,14 @@ fun MainScreen(weatherViewModel: WeatherViewModel) {
                         },
                         onNavigateToSearch = {
                             currentScreen = AppDestinations.SEARCH_SCREEN_ROUTE
-                        },
-                        onFullyDrawn = { currentScreen = AppDestinations.LOCATION_SCREEN_ROUTE })
+                        })
                 }
 
                 AppDestinations.WEATHER_SCREEN_ROUTE -> {
                     WeatherScreen(
                         weatherViewModel = weatherViewModel,
                         location = selectedCity,
-                        onNavigateBack = { currentScreen = AppDestinations.LOCATION_SCREEN_ROUTE },
-                        onFullyDrawn = { currentScreen = AppDestinations.WEATHER_SCREEN_ROUTE })
+                        onNavigateBack = { currentScreen = AppDestinations.LOCATION_SCREEN_ROUTE })
                 }
 
                 AppDestinations.SEARCH_SCREEN_ROUTE -> {

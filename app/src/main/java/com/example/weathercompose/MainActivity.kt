@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.rememberNavController
 import com.example.weathercompose.compose.theme.WeatherComposeTheme
 import com.example.weathercompose.compose.view.MainScreen
 import com.example.weathercompose.data.local.CityDatabaseProvider
