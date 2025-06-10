@@ -6,9 +6,13 @@ data class WeatherData(
     val locationName: String,
     val weatherIcon: String,
     val feelsLike: String,
+    val precipitation: String,
+    val windSpeed: String,
+    val windDirection: String,
     val highTemperature: String,
     val lowTemperature: String,
-    val hourlyData: List<HourlyData>
+    val hourlyData: List<HourlyData>,
+    val threeDayForecast: List<ForecastData>
 )
 
 data class HourlyData(
@@ -16,4 +20,18 @@ data class HourlyData(
     val temperature: String,
     val weatherIcon: String,
     val changeOfRain: Double
+)
+
+data class ForecastData(
+    val date: String,
+    val highTemperature: String,
+    val lowTemperature: String,
+    val weatherIcon: String,
+    val chanceOfRain: Double
+)
+
+data class WeatherConditions(
+    val precipitation: String,
+    val windSpeed: String,
+    val windDirection: String
 )

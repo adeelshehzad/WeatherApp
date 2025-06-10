@@ -16,9 +16,13 @@ data class SavedCityWeather(
             weatherCondition = weatherCondition,
             weatherIcon = weatherIcon,
             feelsLike = feelsLike,
+            precipitation = "",
+            windSpeed = "",
+            windDirection = "",
             highTemperature = highTemperature,
             lowTemperature = lowTemperature,
-            hourlyData = emptyList()
+            hourlyData = emptyList(),
+            threeDayForecast = emptyList()
         )
     }
 }

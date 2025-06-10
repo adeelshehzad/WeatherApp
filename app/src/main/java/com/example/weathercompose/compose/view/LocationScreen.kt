@@ -273,9 +273,13 @@ fun LocationScreenPreview() {
             locationName = "Brampton",
             weatherIcon = "",
             feelsLike = "25",
+            precipitation = "",
+            windSpeed = "",
+            windDirection = "",
             highTemperature = "25",
             lowTemperature = "12",
-            hourlyData = emptyList()
+            hourlyData = emptyList(),
+            threeDayForecast = emptyList()
         ),
         savedCityWeather = listOf(
             SavedCityWeather("Barrie", "25", "Sunny", ""),
