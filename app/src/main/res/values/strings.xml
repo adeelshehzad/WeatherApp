@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Weather Compose</string>
+    <string name="search_icon_icon_cd">Search Icon</string>
+    <string name="current_location">Current Location</string>
+    <string name="saved_location">Saved Location</string>
+    <string name="location_icon">Location Icon</string>
+    <string name="degree_centigrade">%1$s°C</string>
+    <string name="no_saved_locations">No saved locations</string>
+    <string name="error">Error</string>
+    <string name="error_fetching_location_weather">Error fetching location weather</string>
+    <string name="error_fetching_saved_locations">Error fetching saved locations</string>
+    <string name="location_permission_rationale_dialog_title">Location Permission Required</string>
+    <string name="location_permission_rationale_dialog_description">This app requires location permission to function properly.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
 </resources>
